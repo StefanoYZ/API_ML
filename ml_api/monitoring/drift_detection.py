@@ -51,6 +51,6 @@ if __name__ == "__main__":
 
     detectar_drift(
         ruta_original="dataset_original.csv",
-        ruta_nuevo="data/registros.csv",
+        ruta_nuevo="data/log_registros.csv",
         columnas_a_comparar=columnas
     )

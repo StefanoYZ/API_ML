@@ -46,7 +46,7 @@ def preprocesar(df_raw):
     categorical_cols = ['Gender', 'Profession', 'Dietary Habits',
                         'Have you ever had suicidal thoughts ?', 'Family History of Mental Illness']
 
-    df = pd.get_dummies(df, columns=categorical_cols, drop_first=False)
+    df = pd.get_dummies(df, columns=categorical_cols, drop_first=True)
 
     for col in columnas_modelo_original:
         if col not in df.columns:
@@ -54,7 +54,6 @@ def preprocesar(df_raw):
 
     df = df[columnas_modelo_original]
     return df
-
 
 def detectar_drift(df_original, df_nuevo, columnas):
     columnas_con_drift = []
@@ -69,7 +68,6 @@ def detectar_drift(df_original, df_nuevo, columnas):
         if p < UMBRAL_DRIFT:
             columnas_con_drift.append(col)
     return columnas_con_drift
-
 
 def reentrenar_modelo():
     if not os.path.exists(LOG_CSV):
@@ -89,6 +87,10 @@ def reentrenar_modelo():
     ]
     df = df_raw[columnas_usables + [COLUMNA_OBJETIVO]].copy()
     df_proc = preprocesar(df)
+
+    # Forzar orden y tipo
+    df_proc = df_proc[columnas_modelo_original].copy()
+    assert isinstance(df_proc, pd.DataFrame), "❌ df_proc no es DataFrame"
 
     y = df[COLUMNA_OBJETIVO].apply(lambda x: 1 if str(x).strip().lower() == 'sí' else 0)
 
@@ -122,17 +124,18 @@ def reentrenar_modelo():
     )
     model_log.fit(df_proc, y)
 
+    # Guardar artefactos
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     joblib.dump(model_log, os.path.join(MODELO_DIR, 'modelo_TEST.pkl'))
     joblib.dump(scaler, os.path.join(MODELO_DIR, 'scaler_TEST.pkl'))
+
     with open(os.path.join(MODELO_DIR, 'columnas_modelo_TEST.json'), 'w') as f:
-        json.dump(columnas_modelo_original, f)
+        json.dump(df_proc.columns.tolist(), f)
 
     with open(LOG_PATH, 'a', encoding='utf-8') as logf:
         logf.write(f"[{timestamp}] Drift: {', '.join(columnas_con_drift)} | Registros usados: {len(df_proc)}\n")
 
     print("✅ Modelo reentrenado y guardado correctamente.")
-
 
 if __name__ == '__main__':
     reentrenar_modelo()
