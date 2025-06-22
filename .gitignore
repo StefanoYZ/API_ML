@@ -1,0 +1,30 @@
+# Entorno virtual
+venv/
+
+# Datos originales y generados
+data/
+ml_api/dataset_original.csv
+
+# Modelos entrenados (opcional, si no quieres subirlos)
+ml_api/model/*.pkl
+ml_api/model/*.json
+
+# Archivos temporales de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos ocultos del sistema
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Archivos de log
+*.log
+
+# VSCode / PyCharm
+.vscode/
+.idea/

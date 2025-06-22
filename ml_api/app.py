@@ -1,0 +1,77 @@
+import sys
+import os
+import numpy as np
+import pandas as pd
+from flask_cors import CORS
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from flask import Flask, request, jsonify
+import pickle
+import json
+from utils.preprocessing import procesar_dato
+from monitoring.log_predictions import guardar_prediccion
+
+# Cargar el modelo entrenado
+with open("model/modelo.pkl", "rb") as f:
+    modelo = pickle.load(f)
+
+# Cargar el escalador
+with open("model/scaler.pkl", "rb") as f:
+    scaler = pickle.load(f)
+
+# Cargar las columnas esperadas
+with open("model/columnas_modelo.json", "r") as f:
+    columnas_modelo = json.load(f)
+''''''
+# -----------------------------
+# ✅ OPCIÓN PARA FUTURO (cuando uses el modelo reentrenado con joblib)
+# -----------------------------
+# import joblib
+# import json
+#
+# modelo = joblib.load('model/nuevo_modelo.pkl')         
+# scaler = joblib.load('model/nuevo_scaler.pkl')          
+# with open('model/columnas_modelo.json') as f:
+#     columnas_modelo = json.load(f)
+
+
+# -----------------------------
+# Inicializar la app Flask
+
+app = Flask(__name__)
+CORS(app)
+@app.route('/')
+def index():
+    return "✅ API de predicción de depresión activa."
+
+@app.route('/predict', methods=['POST'])
+def predict():
+    try:
+        # Leer JSON enviado en el cuerpo de la petición
+        nuevo_dato = request.get_json()
+
+        # Validar que se haya recibido algo
+        if not nuevo_dato:
+            return jsonify({"error": "No se recibió ningún dato"}), 400
+
+        # Preprocesar
+        df_procesado = procesar_dato(nuevo_dato, scaler, columnas_modelo)
+
+        # Predicción
+        probabilidad = modelo.predict_proba(df_procesado)[0][1]
+        prediccion = int(modelo.predict(df_procesado)[0])
+        # Guardado de la predicción
+        id_registro = guardar_prediccion(df_procesado, prediccion, probabilidad)
+        # Respuesta JSON
+        return jsonify({
+            "tiene_depresion": bool(prediccion),
+            "probabilidad": round(probabilidad, 4),
+        })
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# Solo si ejecutas directamente
+if __name__ == "__main__":
+    app.run(debug=True)
