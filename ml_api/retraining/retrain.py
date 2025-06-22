@@ -13,8 +13,8 @@ BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 LOG_CSV = os.path.join(BASE_DIR, 'data', 'log_registros.csv')
 MODELO_DIR = os.path.join(BASE_DIR, 'model')
 COLUMNA_OBJETIVO = 'Tiene Depresion'
-MIN_REGISTROS = 30
-UMBRAL_DRIFT = 0.05
+MIN_REGISTROS = 700
+UMBRAL_DRIFT = 0.5
 LOG_PATH = os.path.join(BASE_DIR, 'retraining', 'retrain_log.txt')
 DATASET_ORIGINAL = os.path.join(BASE_DIR, 'dataset_original.csv')
 
@@ -76,7 +76,7 @@ def reentrenar_modelo():
 
     df_raw = pd.read_csv(LOG_CSV)
     if len(df_raw) < MIN_REGISTROS:
-        print("ℹ️ No hay suficientes registros")
+        print("No hay suficientes registros")
         return
 
     columnas_usables = [
