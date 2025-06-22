@@ -1,28 +1,30 @@
-import pandas as pd
-from datetime import datetime
 import os
+import csv
+from datetime import datetime
 
-def guardar_prediccion(df_procesado: pd.DataFrame, pred: int, proba: float, ruta_csv='data/registros.csv'):
+DATA_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'log_registros.csv')
+
+
+def guardar_prediccion(dato: dict, pred: int, proba: float):
     """
-    Guarda el dato procesado (con columnas consistentes) y su predicción.
+    Guarda los datos originales ingresados por el usuario en un CSV legible.
 
     Args:
-        df_procesado (pd.DataFrame): Dato ya preprocesado, con columnas correctas.
-        pred (int): Resultado de la predicción (0 = No, 1 = Sí).
-        proba (float): Probabilidad estimada.
-        ruta_csv (str): Ruta del archivo de registros.
+        dato (dict): Datos originales ingresados por el usuario.
+        pred (int): Resultado de la predicción (0 o 1).
+        proba (float): Probabilidad asociada a la predicción.
     """
-    # Agregar columnas de resultado
-    df_procesado = df_procesado.copy()
-    df_procesado['prediccion'] = pred
-    df_procesado['probabilidad'] = round(proba, 4)
-    df_procesado['timestamp'] = datetime.now().isoformat()
+    dato_guardado = dato.copy()
+    dato_guardado["Tiene Depresion"] = "Sí" if pred == 1 else "No"
+    dato_guardado["Probabilidad"] = round(proba, 4)
+    dato_guardado["Fecha"] = datetime.now().isoformat()
 
-    # Guardar
-    if os.path.exists(ruta_csv):
-        df_antiguo = pd.read_csv(ruta_csv)
-        df_total = pd.concat([df_antiguo, df_procesado], ignore_index=True)
-    else:
-        df_total = df_procesado
+    archivo_existe = os.path.exists(DATA_PATH)
 
-    df_total.to_csv(ruta_csv, index=False)
+    with open(DATA_PATH, mode='a', newline='', encoding='utf-8') as f:
+        writer = csv.DictWriter(f, fieldnames=dato_guardado.keys())
+
+        if not archivo_existe:
+            writer.writeheader()
+
+        writer.writerow(dato_guardado)

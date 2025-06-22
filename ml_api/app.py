@@ -9,7 +9,7 @@ from flask import Flask, request, jsonify
 import pickle
 import json
 from utils.preprocessing import procesar_dato
-from monitoring.log_predictions import guardar_prediccion
+from ml_api.monitoring.log_predictions import guardar_prediccion
 
 # Cargar el modelo entrenado
 with open("model/modelo.pkl", "rb") as f:
@@ -22,20 +22,19 @@ with open("model/scaler.pkl", "rb") as f:
 # Cargar las columnas esperadas
 with open("model/columnas_modelo.json", "r") as f:
     columnas_modelo = json.load(f)
-''''''
+
+'''
 # -----------------------------
-# ✅ OPCIÓN PARA FUTURO (cuando uses el modelo reentrenado con joblib)
+#  OPCIÓN PARA FUTURO (cuando uses el modelo reentrenado con joblib)
 # -----------------------------
-# import joblib
-# import json
+import joblib
+import json
 #
-# modelo = joblib.load('model/nuevo_modelo.pkl')         
-# scaler = joblib.load('model/nuevo_scaler.pkl')          
-# with open('model/columnas_modelo.json') as f:
-#     columnas_modelo = json.load(f)
-
-
-# -----------------------------
+modelo = joblib.load('model/modelo_TEST.pkl')         
+scaler = joblib.load('model/scaler_TEST.pkl')          
+with open('model/columnas_modelo_TEST.json') as f:
+    columnas_modelo = json.load(f)
+'''
 # Inicializar la app Flask
 
 app = Flask(__name__)
@@ -56,12 +55,12 @@ def predict():
 
         # Preprocesar
         df_procesado = procesar_dato(nuevo_dato, scaler, columnas_modelo)
-
+        
         # Predicción
         probabilidad = modelo.predict_proba(df_procesado)[0][1]
         prediccion = int(modelo.predict(df_procesado)[0])
         # Guardado de la predicción
-        id_registro = guardar_prediccion(df_procesado, prediccion, probabilidad)
+        guardar_prediccion(nuevo_dato, prediccion, probabilidad)
         # Respuesta JSON
         return jsonify({
             "tiene_depresion": bool(prediccion),
