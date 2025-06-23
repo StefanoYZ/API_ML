@@ -11,18 +11,19 @@ import json
 from utils.preprocessing import procesar_dato
 from monitoring.log_predictions import guardar_prediccion
 from monitoring.log_registros import guardar_registro
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # Cargar el modelo entrenado
-with open("model/modelo.pkl", "rb") as f:
+with open(os.path.join(BASE_DIR, "model", "modelo.pkl"), "rb") as f:
     modelo = pickle.load(f)
 
 # Cargar el escalador
-with open("model/scaler.pkl", "rb") as f:
+with open(os.path.join(BASE_DIR, "model", "scaler.pkl"), "rb") as f:
     scaler = pickle.load(f)
 
 # Cargar las columnas esperadas
-with open("model/columnas_modelo.json", "r") as f:
+with open(os.path.join(BASE_DIR, "model", "columnas_modelo.json"), "r") as f:
     columnas_modelo = json.load(f)
-
 # -----------------------------
 # ✅ OPCIÓN PARA FUTURO (cuando uses el modelo reentrenado con joblib)
 # -----------------------------
