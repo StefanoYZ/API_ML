@@ -5,9 +5,9 @@ venv/
 data/
 ml_api/dataset_original.csv
 
-# Modelos entrenados (opcional, si no quieres subirlos)
-ml_api/model/*.pkl
-ml_api/model/*.json
+# (opcional) Solo ignora los modelos de prueba si los nombras así:
+ml_api/model/*_TEST.pkl
+ml_api/model/columnas_modelo_TEST.json
 
 # Archivos temporales de Python
 __pycache__/
