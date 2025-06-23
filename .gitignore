@@ -2,7 +2,7 @@
 venv/
 
 # Datos originales y generados
-data/
+
 ml_api/dataset_original.csv
 
 # (opcional) Solo ignora los modelos de prueba si los nombras así:
