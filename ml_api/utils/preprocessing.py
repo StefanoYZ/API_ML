@@ -1,18 +1,6 @@
 import pandas as pd
 
 def procesar_dato(nuevo_dato, scaler, columnas_modelo):
-    """
-    Transforma un diccionario de entrada en un DataFrame listo para predicción.
-
-    Args:
-        nuevo_dato (dict): Diccionario con los campos originales del usuario.
-        scaler (StandardScaler): Escalador entrenado.
-        columnas_modelo (list): Lista de columnas ordenadas esperadas por el modelo.
-
-    Returns:
-        pd.DataFrame: Fila procesada y lista para pasar al modelo.
-    """
-
     # Convertir a DataFrame
     df = pd.DataFrame([nuevo_dato])
 
