@@ -1,0 +1,18 @@
+Gender,Age,Profession,Academic Pressure,Work Pressure,CGPA,Study Satisfaction,Job Satisfaction,Sleep Duration,Dietary Habits,Have you ever had suicidal thoughts ?,Work/Study Hours,Financial Stress,Family History of Mental Illness,Tiene Depresion,Probabilidad,Fecha
+Female,25,Student,5,1,6.00,5,1,Less than 5 hours,Healthy,No,5,5,No,Sí,0.6974,2025-06-26T10:29:07.515899
+Female,25,Student,5,5,6.00,5,1,Less than 5 hours,Healthy,No,5,5,No,No,0.2824,2025-06-26T10:29:16.234329
+Female,25,Student,4,6,8.50,2,6,7-8 hours,Healthy,No,5,4,No,Sí,0.922,2025-06-26T11:14:17.451296
+Female,25,Student,4,6,8.50,5,6,7-8 hours,Healthy,No,5,4,No,Sí,0.8505,2025-06-26T11:14:28.982066
+Female,25,Student,4,5,8.50,5,6,7-8 hours,Healthy,No,5,4,No,Sí,0.8985,2025-06-26T11:14:41.500243
+Female,25,Student,4,6,8.50,5,6,7-8 hours,Healthy,No,5,3,No,Sí,0.7649,2025-06-26T11:14:48.994173
+Female,25,Student,4,6,8.50,5,6,7-8 hours,Healthy,No,5,2,No,Sí,0.6505,2025-06-26T11:14:50.662903
+Female,25,Student,4,6,8.50,5,6,7-8 hours,Healthy,No,5,0,No,No,0.3784,2025-06-26T11:15:30.733571
+Female,25,Student,4,6,8.50,5,6,7-8 hours,Healthy,No,5,2,No,Sí,0.6505,2025-06-26T11:15:35.128348
+Female,25,Student,4,6,8.50,5,6,7-8 hours,Healthy,No,5,1,No,Sí,0.5156,2025-06-26T11:15:37.563622
+Female,25,Student,4,6,8.50,5,6,7-8 hours,Healthy,No,5,0,No,No,0.3784,2025-06-26T11:15:39.499354
+Female,25,Student,2,6,8.50,4,6,7-8 hours,Healthy,No,5,0,No,No,0.1271,2025-06-26T11:15:47.667134
+Male,19,Student,8,3,3.2,6,0,7-8 hours,Healthy,Yes,7,6,Yes,Sí,0.9935,2025-06-28T15:36:33.517070
+Male,19,Student,8,3,3.2,6,0,7-8 hours,Healthy,Yes,7,6,Yes,Sí,0.9935,2025-06-28T15:36:50.491455
+Male,19,Student,8,3,3.2,6,0,7-8 hours,Healthy,Yes,7,6,Yes,Sí,0.9935,2025-06-28T15:36:51.785391
+Female,26,Student,2,4,6.00,2,4,Less than 5 hours,Healthy,No,5,2,No,No,0.2251,2025-07-02T23:11:19.923763
+Female,24,Student,2,4,6.00,2,4,Less than 5 hours,Healthy,No,5,1,No,No,0.1719,2025-07-02T23:15:57.134974

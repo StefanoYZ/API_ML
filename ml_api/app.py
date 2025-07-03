@@ -3,6 +3,7 @@ import os
 import numpy as np
 import pandas as pd
 from flask_cors import CORS
+from flask import send_file
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from flask import Flask, request, jsonify
@@ -24,20 +25,6 @@ with open(os.path.join(BASE_DIR, "model", "scaler.pkl"), "rb") as f:
 # Cargar las columnas esperadas
 with open(os.path.join(BASE_DIR, "model", "columnas_modelo.json"), "r") as f:
     columnas_modelo = json.load(f)
-# -----------------------------
-# ✅ OPCIÓN PARA FUTURO (cuando uses el modelo reentrenado con joblib)
-# -----------------------------
-# import joblib
-# import json
-#
-# modelo = joblib.load('model/modelo_TEST.pkl')         
-# scaler = joblib.load('model/scaler_TEST.pkl')          
-# with open('model/columnas_modelo_TEST.json') as f:
-#     columnas_modelo = json.load(f)
-
-
-# -----------------------------
-# Inicializar la app Flask
 
 app = Flask(__name__)
 CORS(app)
@@ -73,6 +60,13 @@ def predict():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route('/descargar-registros', methods=['GET'])
+def descargar_registros():
+    ruta_csv = os.path.join(BASE_DIR, 'data', 'log_registros.csv')
+    if os.path.exists(ruta_csv):
+        return send_file(ruta_csv, as_attachment=True)
+    else:
+        return jsonify({"error": "El archivo de registros no existe"}), 404
 
 # Solo si ejecutas directamente
 if __name__ == "__main__":

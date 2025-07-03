@@ -2,15 +2,7 @@ import pandas as pd
 from scipy.stats import ks_2samp
 
 def detectar_drift(ruta_original, ruta_nuevo, columnas_a_comparar, umbral=0.05):
-    """
-    Compara la distribución de columnas entre el dataset original y los nuevos registros.
-
-    Args:
-        ruta_original (str): Ruta al archivo CSV original.
-        ruta_nuevo (str): Ruta al archivo CSV de registros reales.
-        columnas_a_comparar (list): Lista de nombres de columnas a comparar.
-        umbral (float): Valor de corte para p-value. Por defecto: 0.05.
-    """
+  
     try:
         df_original = pd.read_csv(ruta_original)
         df_nuevo = pd.read_csv(ruta_nuevo)
